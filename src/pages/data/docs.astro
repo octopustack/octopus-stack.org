@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html is:raw>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,9 +7,9 @@
 <title>@Cervid/data — Documentation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Syne:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles/docs.css" />
+<link rel="stylesheet" href="../styles/docs.css">
 </head>
-<body>
+<body is:raw> 
 
 <nav class="topnav">
   <div class="topnav-left">
@@ -21,7 +21,7 @@
     <a href="/">Home</a>
     <a href="https://github.com/cervidlabs/cervid-data" target="_blank">GitHub</a>
     <a href="https://npmjs.com/package/@cervid/data" target="_blank">npm</a>
-    <span class="version-tag">v1.0.2</span>
+    <span class="version-tag">v1.0.0</span>
   </div>
 </nav>
 
@@ -37,7 +37,7 @@
       <span class="sidebar-group-label">Reading Data</span>
       <div class="sidebar-link" data-page="reading">Cervid.read() <span class="stag stag-io">I/O</span></div>
     </div>
-    <div class="sidebar-group">
+    <div class="sidebar-group" is:raw>
       <span class="sidebar-group-label">DataFrame</span>
       <div class="sidebar-link" data-page="dataframe">Core & Display</div>
       <div class="sidebar-link" data-page="transform">Transformation <span class="stag stag-tf">tf</span></div>
@@ -58,15 +58,15 @@
 
   <main class="main">
     <!-- PAGE: INTRO -->
-    <div class="page active" id="page-intro">
-      <div class="page-header"><div class="page-eyebrow">Cervid-data</div><h1 class="page-title">INTRODUCTION</h1><p class="page-desc">A columnar data engine for Node.js. Zero dependencies. Built on SharedArrayBuffer, Worker Threads, and TypedArrays.</p></div>
+    <div class="page active" id="page-intro" is:raw>
+      <div class="page-header"><div class="page-eyebrow">Cervid/data</div><h1 class="page-title">INTRODUCTION</h1><p class="page-desc" is:raw>A columnar data engine for Node.js. Zero dependencies. Built on SharedArrayBuffer, Worker Threads, and TypedArrays.</p></div>
       <div class="stat-row"><div class="stat-card"><div class="stat-card-val">0</div><div class="stat-card-lbl">Dependencies</div></div><div class="stat-card"><div class="stat-card-val">3.44s</div><div class="stat-card-lbl">Load 7.8M rows</div></div><div class="stat-card"><div class="stat-card-val">SAB</div><div class="stat-card-lbl">SharedArrayBuffer</div></div><div class="stat-card"><div class="stat-card-val">MIT</div><div class="stat-card-lbl">License</div></div></div>
       <div class="section-title">How it works</div><div class="method"><div class="method-body"><p class="method-desc">Cervid-data reads your entire dataset into a <code>SharedArrayBuffer</code> — one contiguous block of RAM. Worker Threads receive a reference to that buffer, not a copy. Each worker processes its own partition in parallel, writing results back to shared memory.</p><p class="method-desc">Numeric columns are stored as <code>Float64Array</code> views over the shared buffer. This means aggregations, filters, and feature engineering operate directly on raw memory — no object allocation, no garbage collection pressure.</p><div class="note note-info">Cervid-data uses only Node.js core modules: <code>fs</code>, <code>worker_threads</code>, <code>os</code>, <code>path</code>. No npm install required beyond the package itself.</div></div></div>
       <div class="section-title">Core classes</div><div class="method"><div class="method-body"><p class="method-desc"><strong style="color:var(--orange)">Cervid</strong> — Static entry point. Use <code>Cervid.read()</code> to load CSV or JSON files into a DataFrame.</p><p class="method-desc"><strong style="color:var(--orange)">DataFrame</strong> — The main data structure. Holds columnar data and exposes all transformation, aggregation, and export methods.</p><p class="method-desc"><strong style="color:var(--orange)">Column</strong> — A linked reference to a single column that enables chained arithmetic ops.</p><p class="method-desc"><strong style="color:var(--orange)">Series</strong> — The internal columnar primitive. Each column inside a DataFrame is a Series backed by a TypedArray.</p></div></div>
     </div>
 
     <!-- PAGE: INSTALL -->
-    <div class="page" id="page-install">
+    <div class="page" id="page-install" is:raw>
       <div class="page-header"><div class="page-eyebrow">Getting Started</div><h1 class="page-title">INSTALLATION</h1><p class="page-desc">Cervid-data requires Node.js 18+ for SharedArrayBuffer and Worker Threads support.</p></div>
       <div class="section-title">npm</div><span class="code-label">install</span><pre><span class="cn">npm</span> i @cervid/data</pre>
       <div class="section-title">Import</div><span class="code-label">ESM (recommended)</span><pre><span class="kw">import</span> { Cervid }   <span class="kw">from</span> <span class="st">'@cervid/data'</span>
@@ -77,7 +77,7 @@
     </div>
 
     <!-- PAGE: QUICKSTART -->
-    <div class="page" id="page-quickstart">
+    <div class="page" id="page-quickstart" is:raw>
       <div class="page-header"><div class="page-eyebrow">Getting Started</div><h1 class="page-title">QUICKSTART</h1><p class="page-desc">A complete example loading, cleaning, transforming, and aggregating 7.8M rows.</p></div>
       <span class="code-label">complete example</span>
       <pre><span class="kw">import</span> { Cervid } <span class="kw">from</span> <span class="st">'@cervid/data'</span>
@@ -117,7 +117,7 @@ byHour.<span class="fn">show</span>(<span class="nu">5</span>)
     </div>
 
     <!-- PAGE: READING -->
-    <div class="page" id="page-reading">
+    <div class="page" id="page-reading" is:raw>
       <div class="page-header"><div class="page-eyebrow">Reading Data</div><h1 class="page-title">Cervid.<span class="accent">READ()</span></h1><p class="page-desc">Universal entry point for loading CSV and JSON files into a DataFrame.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="kw">static async</span> <span class="fn">Cervid.read</span>(<span class="prm">filePath</span><span class="typ">: string</span>, <span class="prm">options</span><span class="typ">?: ReadOptions</span>) → <span class="ret">Promise&lt;DataFrame&gt;</span></div><span class="method-kind static">static</span></div><div class="method-body"><p class="method-desc">Detects file format by extension and routes to the appropriate engine. <code>.csv</code> uses the Nitro engine (SharedArrayBuffer + Workers). <code>.json</code> uses the JSON engine with auto flattening.</p><table class="ptable"><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th><tr><td class="pn">filePath</td><td class="pt">string</td><td class="pv">—</td><td class="pd">Path to the file</td></tr><tr><td class="pn">options.workers</td><td class="pt">number</td><td class="pv">os.cpus().length</td><td class="pd">Number of Worker Threads</td></tr><tr><td class="pn">options.indexerCapacity</td><td class="pt">number</td><td class="pv">10_000_000</td><td class="pd">Max rows for column buffers</td></tr><tr><td class="pn">options.useOffsets</td><td class="pt">boolean</td><td class="pv">true</td><td class="pd">Store byte offsets for string columns</td></tr><tr><td class="pn">options.type</td><td class="pt">'csv' | 'json'</td><td class="pv">auto</td><td class="pd">Force a specific format</td></tr></table><span class="code-label">examples</span><pre><span class="kw">const</span> df = <span class="kw">await</span> <span class="fn">Cervid.read</span>(<span class="st">'data.csv'</span>)
 <span class="kw">const</span> df = <span class="kw">await</span> <span class="fn">Cervid.read</span>(<span class="st">'data.json'</span>)
@@ -129,7 +129,7 @@ byHour.<span class="fn">show</span>(<span class="nu">5</span>)
     </div>
 
     <!-- PAGE: DATAFRAME -->
-    <div class="page" id="page-dataframe">
+    <div class="page" id="page-dataframe" is:raw>
       <div class="page-header"><div class="page-eyebrow">DataFrame</div><h1 class="page-title">CORE &amp; <span class="accent">DISPLAY</span></h1><p class="page-desc">DataFrame constructor, static builders, and display methods.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="kw">new</span> <span class="fn">DataFrame</span>(<span class="prm">config</span><span class="typ">: DataFrameConfig</span>)</div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Creates a new DataFrame. You typically get DataFrames from <code>Cervid.read()</code>, but you can construct one manually.</p><table class="ptable"><tr><th>Property</th><th>Type</th><th>Description</th><tr><td class="pn">columns</td><td class="pt">Record&lt;string, TypedArray&gt;</td><td class="pd">Column data — use Float64Array for numerics</td></tr><tr><td class="pn">rowCount</td><td class="pt">number</td><td class="pd">Total number of rows</td></tr><tr><td class="pn">headers</td><td class="pt">string[]</td><td class="pd">Column names in order</td></tr></table></div></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="kw">static</span> <span class="fn">DataFrame.fromObjects</span>(<span class="prm">data</span><span class="typ">: object[]</span>) → <span class="ret">DataFrame</span></div><span class="method-kind static">static</span></div><div class="method-body"><p class="method-desc">Converts a plain JS array of objects into a DataFrame. Numeric values are stored as <code>Float64Array</code> automatically.</p><span class="code-label">example</span><pre><span class="kw">const</span> df = <span class="fn">DataFrame.fromObjects</span>([
@@ -143,7 +143,7 @@ byHour.<span class="fn">show</span>(<span class="nu">5</span>)
     </div>
 
     <!-- PAGE: TRANSFORM -->
-    <div class="page" id="page-transform">
+    <div class="page" id="page-transform" is:raw>
       <div class="page-header"><div class="page-eyebrow">DataFrame</div><h1 class="page-title">TRANS<span class="accent">FORMATION</span></h1><p class="page-desc">Methods for creating new columns, selecting, renaming, casting, and reshaping data.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">with_columns</span>(<span class="prm">specs</span><span class="typ">: ColSpec[]</span>) → <span class="ret">DataFrame</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Vectorized feature engineering. Applies formulas row-by-row using direct TypedArray access. Optimized fast paths for 1, 2, and 4 inputs. Returns <code>this</code> for chaining.</p><table class="ptable"><tr><th>ColSpec property</th><th>Type</th><th>Description</th><tr><td class="pn">name</td><td class="pt">string</td><td class="pd">Name of the new column to create</td></tr><tr><td class="pn">inputs</td><td class="pt">string[]</td><td class="pd">Column names fed into the formula</td></tr><tr><td class="pn">formula</td><td class="pt">Function</td><td class="pd"><code>(...values: number[]) => number</code></td></tr></table><span class="code-label">example</span><pre>df.<span class="fn">with_columns</span>([
   { name: <span class="st">'revenue_per_mile'</span>, inputs: [<span class="st">'total_amount'</span>, <span class="st">'trip_distance'</span>], formula: (amount, dist) => dist > 0 ? amount / dist : 0 },
@@ -157,7 +157,7 @@ byHour.<span class="fn">show</span>(<span class="nu">5</span>)
     </div>
 
     <!-- PAGE: FILTERING (CONTENIDO COMPLETO) -->
-    <div class="page" id="page-filtering">
+    <div class="page" id="page-filtering" is:raw>
       <div class="page-header"><div class="page-eyebrow">DataFrame</div><h1 class="page-title">FILTER<span class="accent">ING</span></h1><p class="page-desc">Methods for selecting subsets of rows based on conditions, position, or null values.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">filter</span>(<span class="prm">inputs</span><span class="typ">: string[]</span>, <span class="prm">predicate</span><span class="typ">: Function</span>) → <span class="ret">DataFrame</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Returns a new DataFrame containing only rows where the predicate returns <code>true</code>. The predicate receives the values of the listed columns for each row.</p><span class="code-label">example</span><pre><span class="kw">const</span> valid = df.<span class="fn">filter</span>(
   [<span class="st">'fare_amount'</span>, <span class="st">'trip_distance'</span>, <span class="st">'passenger_count'</span>],
@@ -171,7 +171,7 @@ byHour.<span class="fn">show</span>(<span class="nu">5</span>)
     </div>
 
     <!-- PAGE: AGGREGATION -->
-    <div class="page" id="page-aggregation">
+    <div class="page" id="page-aggregation" is:raw>
       <div class="page-header"><div class="page-eyebrow">DataFrame</div><h1 class="page-title">AGGRE<span class="accent">GATION</span></h1><p class="page-desc">GroupBy, sorting, and scalar aggregation methods.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">groupBy</span>(<span class="prm">groupCol</span><span class="typ">: string</span>, <span class="prm">aggs</span><span class="typ">: AggSpec</span>) → <span class="ret">DataFrame</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Groups rows by a column and applies aggregation functions. Supports <code>sum</code>, <code>mean</code>, <code>count</code>, <code>max</code>, <code>min</code>. Pass a string for a single op or an array for multiple — output columns will be named <code>{col}_{op}</code>.</p><span class="code-label">single op</span><pre><span class="kw">const</span> byHour = df.<span class="fn">groupBy</span>(<span class="st">'hour'</span>, { tip_pct: <span class="st">'mean'</span>, fare_amount: <span class="st">'sum'</span> })</pre><span class="code-label">multiple ops</span><pre><span class="kw">const</span> byZone = df.<span class="fn">groupBy</span>(<span class="st">'zone_id'</span>, {
   fare_amount: [<span class="st">'sum'</span>, <span class="st">'mean'</span>, <span class="st">'count'</span>],
@@ -187,7 +187,7 @@ df.<span class="fn">max</span>(<span class="st">'trip_distance'</span>) <span cl
     </div>
 
     <!-- PAGE: INSPECTION -->
-    <div class="page" id="page-inspection">
+    <div class="page" id="page-inspection" is:raw>
       <div class="page-header"><div class="page-eyebrow">DataFrame</div><h1 class="page-title">INSPEC<span class="accent">TION</span></h1><p class="page-desc">Methods for exploring unique values, frequencies, and joining DataFrames.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">unique</span>(<span class="prm">columnName</span><span class="typ">: string</span>) → <span class="ret">any[]</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Returns an array of unique values in a column using a <code>Set</code>.</p></div></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">nunique</span>(<span class="prm">columnName</span><span class="typ">: string</span>) → <span class="ret">number</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Returns the count of unique values. Faster than <code>unique().length</code>.</p></div></div>
@@ -207,7 +207,7 @@ df.<span class="fn">max</span>(<span class="st">'trip_distance'</span>) <span cl
     </div>
 
     <!-- PAGE: COLUMN -->
-    <div class="page" id="page-column">
+    <div class="page" id="page-column" is:raw>
       <div class="page-header"><div class="page-eyebrow">Column API</div><h1 class="page-title">COLUMN &amp; <span class="accent">SERIES</span></h1><p class="page-desc">Low-level column operations and the internal Series primitive.</p></div>
       <div class="method"><div class="method-header"><div class="method-sig"><span class="fn">col</span>(<span class="prm">name</span><span class="typ">: string</span>) → <span class="ret">Column</span></div><span class="method-kind instance">instance</span></div><div class="method-body"><p class="method-desc">Returns a <code>Column</code> instance linked to the underlying TypedArray. Enables chained arithmetic that mutates the column in-place.</p><span class="code-label">example — timestamp parsing</span><pre>df.<span class="fn">col</span>(<span class="st">'tpep_pickup_datetime'</span>)
   .<span class="fn">to_datetime</span>()
