@@ -3,7 +3,7 @@ const { disabled = [] } = Astro.props;
 
 const modules = [
     {
-        name: "@cervid/data",
+        name: "data",
         href: "/data",
         status: "LIVE",
         version: "v1.0.0",
@@ -12,46 +12,87 @@ const modules = [
         tags: ["Columnar", "SIMD", "Workers", "CSV", "JSON", "NDJSON"],
     },
     {
-        name: "@cervid/decomposer",
-        href: null,
-        status: "PROTOTYPE",
-        version: "IN CONSTRUCTION",
+        name: "decomposer",
+        href: "/decomposer",
+        status: "LIVE",
+        version: "v0.1.0",
         description: "Binary format deconstruction. Pure Node.js reader.",
         tags: ["Binary", "Parquet", "IPC"],
+    },
+    {
+        name: "vision",
+        href: "/vision",
+        status: "LIVE",
+        version: "v0.0.1",
+        description: "Image Processing Engine",
+        tags: ["Image Processing", "CPU"],
     },
 ];
 ---
 
-<section id="ecosystem" class="ecosystem-grid">
-    {
-        modules.map((mod) => {
-            const isDisabled = !mod.href;
-            const isCancel = disabled.includes(mod.name) || isDisabled;
+<!-- Overlay backdrop -->
+<div class="ecosystem-backdrop" id="ecosystemBackdrop"></div>
 
-            const Tag = isDisabled ? "div" : "a";
+<!-- Off-canvas Drawer -->
+<aside class="ecosystem-drawer" id="ecosystemDrawer">
+    <div class="drawer-header">
+        <h3 class="drawer-title">CERVID ECOSYSTEM</h3>
+        <button class="close-drawer" id="closeEcosystemBtn" aria-label="Close Ecosystem">✕</button>
+    </div>
+    
+    <div class="drawer-body">
+        <p class="drawer-desc">Select a library to explore its documentation and features.</p>
+        <div class="drawer-list">
+            {
+                modules.map((mod) => {
+                    const isDisabled = !mod.href;
+                    const isCancel = disabled.includes(mod.name) || isDisabled;
+                    const Tag = isDisabled ? "div" : "a";
 
-            return (
-                <Tag
-                    href={!isCancel ? mod.href : undefined}
-                    class={`card ${isDisabled ? "blueprint" : "live"}`}
-                >
-                    <div class="card-status">
-                        {mod.version} // {mod.status}
-                    </div>
+                    return (
+                        <Tag
+                            href={!isCancel ? mod.href : undefined}
+                            class={`sidebar-item ${isDisabled ? "blueprint" : "live"} ${disabled.includes(mod.name) ? "current" : ""}`}
+                        >
+                            <span class="status-indicator"></span>
+                            <div class="sidebar-item-info">
+                                <span class="mod-name">{mod.name}</span>
+                                <span class="mod-version">{mod.version}</span>
+                                <div class="sidebar-item-tags">
+                                    {mod.tags.map((tag) => (
+                                        <span>{tag}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </Tag>
+                    );
+                })
+            }
+        </div>
+    </div>
+</aside>
 
-                    <div class="card-body">
-                        <h2 class="card-title">{mod.name}</h2>
+<script>
+    const drawer = document.getElementById("ecosystemDrawer");
+    const backdrop = document.getElementById("ecosystemBackdrop");
+    const closeBtn = document.getElementById("closeEcosystemBtn");
+    
+    // Select all buttons that might open it
+    const openBtns = document.querySelectorAll("#openEcosystemBtn");
 
-                        <p class="card-text">{mod.description}</p>
-
-                        <div class="card-tags">
-                            {mod.tags.map((tag) => (
-                                <span>{tag}</span>
-                            ))}
-                        </div>
-                    </div>
-                </Tag>
-            );
-        })
+    function openDrawer() {
+        drawer?.classList.add("active");
+        backdrop?.classList.add("active");
+        document.body.style.setProperty("overflow", "hidden");
     }
-</section>
+
+    function closeDrawer() {
+        drawer?.classList.remove("active");
+        backdrop?.classList.remove("active");
+        document.body.style.setProperty("overflow", "auto");
+    }
+
+    openBtns.forEach(btn => btn.addEventListener("click", openDrawer));
+    closeBtn?.addEventListener("click", closeDrawer);
+    backdrop?.addEventListener("click", closeDrawer);
+</script>

@@ -1,0 +1,286 @@
+---
+import Logo from "../../components/logo.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>@Cervid/decomposer &mdash; Documentation</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Syne:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/docs.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+
+    <nav class="topnav">
+      <Logo ext=" - Docs" />
+      <div class="topnav-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          ☰
+        </button>
+        <div class="nav-sep"></div>
+      </div>
+      <div class="topnav-right">
+        <a href="https://github.com/cervidlabs/decomposer" target="_blank">GitHub</a>
+        <a href="https://npmjs.com/package/@cervid/decomposer" target="_blank">npm</a>
+        <span class="version-tag">v0.1.0</span>
+      </div>
+    </nav>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Getting Started</span>
+          <div class="sidebar-link active" data-page="intro">Introduction</div>
+          <div class="sidebar-link" data-page="install">Installation</div>
+          <div class="sidebar-link" data-page="quickstart">Quickstart</div>
+        </div>
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Core APIs</span>
+          <div class="sidebar-link" data-page="decomposer">
+            Decomposer <span class="stag stag-io">I/O</span>
+          </div>
+        </div>
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Formats</span>
+          <div class="sidebar-link" data-page="numpy">NPY / NPZ</div>
+          <div class="sidebar-link" data-page="parquet">Parquet</div>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <main class="main" is:raw>
+        <!-- PAGE: INTRO -->
+        <div class="page active" id="page-intro">
+          <div class="page-header">
+            <div class="page-eyebrow">Cervid/decomposer</div>
+            <h1 class="page-title">INTRODUCTION</h1>
+            <p class="page-desc">
+              High-performance binary deconstruction for Node.js. Extract data from Parquet, NPY, and NPZ files seamlessly with zero native dependencies.
+            </p>
+          </div>
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-card-val">0</div>
+              <div class="stat-card-lbl">Dependencies</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">NPY/NPZ</div>
+              <div class="stat-card-lbl">NumPy Support</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">Parquet</div>
+              <div class="stat-card-lbl">Columnar Extract</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">MIT</div>
+              <div class="stat-card-lbl">License</div>
+            </div>
+          </div>
+          <div class="section-title">How it works</div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                Cervid Decomposer provides a unified interface to read complex binary formats like Parquet (Apache) and NPY/NPZ (NumPy). It automatically routes files to the appropriate engine based on file extensions.
+              </p>
+              <p class="method-desc">
+                Under the hood, it uses <code>NPYEngine</code>, <code>NPZEngine</code>, and <code>ParquetReader</code> to chunk and stream memory, maintaining low overhead while decoding columnar and multidimensional binary data directly into JavaScript TypedArrays and Objects.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: INSTALL -->
+        <div class="page" id="page-install">
+          <div class="page-header">
+            <div class="page-eyebrow">Getting Started</div>
+            <h1 class="page-title">INSTALLATION</h1>
+            <p class="page-desc">
+              Decomposer requires Node.js 18+ for native fetch and Worker Threads support.
+            </p>
+          </div>
+          <div class="section-title">npm</div>
+          <span class="code-label">install</span>
+          <pre><span class="cn">npm</span> i @cervid/decomposer</pre>
+          <div class="section-title">Import</div>
+          <span class="code-label">ESM (recommended)</span>
+          <pre><span class="kw">import</span> { Decomposer } <span class="kw">from</span> <span class="st">'@cervid/decomposer'</span></pre>
+        </div>
+
+        <!-- PAGE: QUICKSTART -->
+        <div class="page" id="page-quickstart">
+          <div class="page-header">
+            <div class="page-eyebrow">Getting Started</div>
+            <h1 class="page-title">QUICKSTART</h1>
+            <p class="page-desc">
+              A quick example showing how to read a NumPy file and a Parquet file.
+            </p>
+          </div>
+          <span class="code-label">complete example</span>
+          <pre><span class="kw">import</span> { Decomposer } <span class="kw">from</span> <span class="st">'@cervid/decomposer'</span>
+
+// 1. Read a NumPy (.npy) file
+<span class="kw">const</span> npyResult = <span class="kw">await</span> Decomposer.read(<span class="st">'data/tensor.npy'</span>)
+console.log(npyResult.data) // Raw TypedArray
+console.log(npyResult.shape) // Array dimensions
+
+// 2. Read specific columns from a Parquet file
+<span class="kw">const</span> parquetResult = <span class="kw">await</span> Decomposer.read(<span class="st">'data/dataset.parquet'</span>, {
+  columns: [<span class="st">'id'</span>, <span class="st">'name'</span>, <span class="st">'score'</span>]
+})
+console.log(parquetResult)
+
+// 3. Inspect a Parquet file without reading rows
+<span class="kw">const</span> inspection = <span class="kw">await</span> Decomposer.read(<span class="st">'data/huge.parquet'</span>, {
+  inspect: <span class="nu">true</span>
+})
+console.log(inspection.metadata)
+</pre>
+        </div>
+
+        <!-- PAGE: DECOMPOSER -->
+        <div class="page" id="page-decomposer">
+          <div class="page-header">
+            <div class="page-eyebrow">Core APIs</div>
+            <h1 class="page-title">DECOMPOSER</h1>
+            <p class="page-desc">
+              The primary wrapper class for processing binary files. It acts as a router for the underlying engines.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="kw">static async</span> <span class="fn">Decomposer.read</span>(<span class="prm">filePath</span><span class="typ">: string</span>, <span class="prm">config</span><span class="typ">?: DecomposerConfig</span>) → <span class="ret">Promise&lt;DecomposerReadResult&gt;</span>
+              </div>
+              <span class="method-kind static">static</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">
+                Reads and decomposes binary files. The target engine is selected based on the file extension (<code>.npy</code>, <code>.npz</code>, <code>.parquet</code>).
+              </p>
+              <table class="ptable">
+                <tr><th>Config Property</th><th>Type</th><th>Description</th></tr>
+                <tr><td class="pn">workers</td><td class="pt">number</td><td class="pd">Worker threads for processing chunks (NPY/NPZ engines).</td></tr>
+                <tr><td class="pn">chunkSizeMB</td><td class="pt">number</td><td class="pd">Memory footprint limit per chunk processing.</td></tr>
+                <tr><td class="pn">columns</td><td class="pt">string[]</td><td class="pd">Array of column names to extract (Parquet only).</td></tr>
+                <tr><td class="pn">sample</td><td class="pt">number</td><td class="pd">Limit the number of rows to read (Parquet only).</td></tr>
+                <tr><td class="pn">inspect</td><td class="pt">boolean</td><td class="pd">Read only the metadata/schema without extracting row data (Parquet only).</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: NUMPY -->
+        <div class="page" id="page-numpy">
+          <div class="page-header">
+            <div class="page-eyebrow">Formats</div>
+            <h1 class="page-title">NUMPY <span class="accent">(NPY/NPZ)</span></h1>
+            <p class="page-desc">
+              High-performance engines for parsing Python's scientific tensor formats.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                <strong>NPYEngine</strong> parses raw <code>.npy</code> files, decoding the dictionary header to understand the tensor shape, data type (e.g. <code>&lt;f8</code> for Float64, <code>|u1</code> for Uint8), and byte order before streaming the raw data block into a native JavaScript TypedArray.
+              </p>
+              <p class="method-desc">
+                <strong>NPZEngine</strong> unpacks <code>.npz</code> files, which are standard ZIP archives containing multiple <code>.npy</code> arrays. It returns an object mapping array names to their respective <code>NPYProcessResult</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: PARQUET -->
+        <div class="page" id="page-parquet">
+          <div class="page-header">
+            <div class="page-eyebrow">Formats</div>
+            <h1 class="page-title">APACHE <span class="accent">PARQUET</span></h1>
+            <p class="page-desc">
+              Columnar extraction engine for the Apache Parquet specification.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                The <code>ParquetReader</code> engine implements custom byte-level parsing to decode Parquet headers, footers, and thrift metadata. 
+              </p>
+              <p class="method-desc">
+                Because Parquet is a columnar format, passing a <code>columns: []</code> array in the configuration will drastically improve performance, as the reader will skip decoding unrelated data pages entirely.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <script>
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebarOverlay");
+
+      function openSidebar() {
+        sidebar?.classList.add("open");
+        overlay?.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.remove("open");
+        overlay?.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      if (menuToggle) menuToggle.addEventListener("click", openSidebar);
+      if (overlay) overlay.addEventListener("click", closeSidebar);
+
+      const links = document.querySelectorAll<HTMLElement>(".sidebar-link");
+      const pages = document.querySelectorAll<HTMLElement>(".page");
+
+      function showPage(pageId: string) {
+        pages.forEach((p) => p.classList.remove("active"));
+        links.forEach((l) => l.classList.remove("active"));
+        const page = document.getElementById("page-" + pageId);
+        if (page) page.classList.add("active");
+        const link = document.querySelector(`[data-page="${pageId}"]`);
+        if (link) link.classList.add("active");
+        history.replaceState(null, "", "#" + pageId);
+        window.scrollTo(0, 0);
+        if (window.innerWidth <= 860) closeSidebar();
+      }
+
+      links.forEach((link) => {
+        link.addEventListener("click", (e: Event) => {
+          e.preventDefault();
+          showPage(link.dataset.page || "");
+        });
+      });
+
+      const hash = window.location.hash.replace("#", "");
+      if (hash && document.getElementById("page-" + hash)) {
+        showPage(hash);
+      } else {
+        showPage("intro");
+      }
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 860) closeSidebar();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+---
+import Ecosystem from "../../components/ecosystem.astro";
+import Footer from "../../components/footer.astro";
+import Logo from "../../components/logo.astro";
+import Roadmap from "../../components/roadmap.astro";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+        <title>Cervid Decomposer · Binary Format Deconstruction</title>
+        <meta
+            name="description"
+            content="Binary format deconstruction and reader for Node.js without native dependencies. Support for Parquet and IPC streams directly into TypedArrays."
+        />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../styles/main.css" />
+    </head>
+
+    <body>
+        <nav>
+            <Logo ext=" - Decomposer" />
+
+            <button
+                class="mobile-menu-btn"
+                id="openMenu"
+                aria-label="Open menu"
+            >
+                <svg width="20" height="20" aria-hidden="true">
+                    <path d="M3 6h14M3 10h14M3 14h14" stroke="white"></path>
+                </svg>
+            </button>
+
+            <div class="nav-right" id="navMenu">
+                <button
+                    class="close-menu"
+                    id="closeMenu"
+                    aria-label="Close menu"
+                >
+                    ✕
+                </button>
+
+                <a href="#features" class="nav-link">FEATURES</a>
+                <a href="#benchmark" class="nav-link">PERFORMANCE</a>
+                <a href="/decomposer/docs" class="nav-link">DOCS</a>
+                <a href="#packages" class="nav-link">PACKAGES</a>
+                <button id="openEcosystemBtn" class="nav-link" style="background:none;border:none;cursor:pointer;padding:0;font-family:inherit;">ECOSYSTEM</button>
+                <a
+                    href="https://github.com/CervidLabs/decomposer"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="nav-link"
+                >
+                    GITHUB
+                </a>
+            </div>
+        </nav>
+
+        <header class="mother-hero vision-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="line-1">BINARY</span>
+                    <span class="line-2">DECONSTRUCTION</span>
+                    <span class="line-3">PURE NODE.JS</span>
+                </h1>
+
+                <p class="hero-mini">
+                    Zero Native Dependencies · Parquet · IPC Streams
+                </p>
+
+                <p class="hero-tagline">
+                    A dependency-free binary format reader for Node.js. Extract structure 
+                    and decode complex binary formats directly into contiguous typed arrays 
+                    and shared memory without C++ bindings.
+                </p>
+
+                <div class="hero-actions">
+                    <div class="install-box">
+                        <span class="prompt">$</span> npm i @cervid/decomposer
+                        <button class="copy-btn" onclick="copyInstall()">
+                            COPY
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Native Bindings</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-value">IPC</div>
+                        <div class="stat-label">Format Support</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-value">MIT</div>
+                        <div class="stat-label">License</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="divider-line"></div>
+
+        <section id="features" class="section-container">
+            <div class="section-label">Capabilities</div>
+
+            <h2 class="section-title">
+                FORMAT DECODING<br />
+                <span class="accent-gradient">IN FLAT MEMORY</span>
+            </h2>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <span class="feature-kicker">Formats</span>
+                    <h3>Parquet Reader</h3>
+                    <p>
+                        Read and decode Apache Parquet files directly into JavaScript 
+                        TypedArrays, supporting Snappy, Gzip, and Uncompressed pages.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Streams</span>
+                    <h3>IPC Messages</h3>
+                    <p>
+                        Parse Inter-Process Communication binary streams, resolving 
+                        schemas and message boundaries dynamically without massive overhead.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Engine</span>
+                    <h3>Zero-Copy Approach</h3>
+                    <p>
+                        Designed to minimize Garbage Collection by reading directly 
+                        from ArrayBuffers using DataViews and pointer arithmetic.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <div class="divider-line" id="packages"></div>
+
+        <Ecosystem disabled={["decomposer"]} />
+
+        <Roadmap />
+
+        <Footer />
+
+        <script>
+            function copyInstall() {
+                navigator.clipboard?.writeText("npm i @cervid/decomposer");
+            }
+
+            const openBtn = document.getElementById("openMenu");
+            const closeBtn = document.getElementById("closeMenu");
+            const navMenu = document.getElementById("navMenu");
+
+            openBtn?.addEventListener("click", () => {
+                navMenu?.classList.add("active");
+                document.body.style.setProperty("overflow", "hidden");
+            });
+
+            closeBtn?.addEventListener("click", () => {
+                navMenu?.classList.remove("active");
+                document.body.style.setProperty("overflow", "auto");
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,324 @@
+---
+import Ecosystem from "../../components/ecosystem.astro";
+import Footer from "../../components/footer.astro";
+import Logo from "../../components/logo.astro";
+import Roadmap from "../../components/roadmap.astro";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+        <title>Cervid Vision · Pure Node.js Computer Vision</title>
+        <meta
+            name="description"
+            content="Pure Node.js computer vision engine with custom JPEG/PNG codecs, optimized kernels, resize, Sobel edges, morphology, connected components, and zero native dependencies."
+        />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../styles/main.css" />
+    </head>
+
+    <body>
+        <nav>
+            <Logo ext=" - Vision" />
+
+            <button
+                class="mobile-menu-btn"
+                id="openMenu"
+                aria-label="Open menu"
+            >
+                <svg width="20" height="20" aria-hidden="true">
+                    <path d="M3 6h14M3 10h14M3 14h14" stroke="white"></path>
+                </svg>
+            </button>
+
+            <div class="nav-right" id="navMenu">
+                <button
+                    class="close-menu"
+                    id="closeMenu"
+                    aria-label="Close menu"
+                >
+                    ✕
+                </button>
+
+                <a href="#benchmark" class="nav-link">BENCHMARK</a>
+                <a href="#features" class="nav-link">FEATURES</a>
+                <a href="#example" class="nav-link">EXAMPLE</a>
+                <a href="#packages" class="nav-link">PACKAGES</a>
+                <a href="/vision/docs" class="nav-link">DOCS</a>
+                <button id="openEcosystemBtn" class="nav-link" style="background:none;border:none;cursor:pointer;padding:0;font-family:inherit;">ECOSYSTEM</button>
+                <a
+                    href="https://github.com/CervidLabs/vision"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="nav-link"
+                >
+                    GITHUB
+                </a>
+            </div>
+        </nav>
+
+        <header class="mother-hero vision-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="line-1">COMPUTER</span>
+                    <span class="line-2">VISION</span>
+                    <span class="line-3">IN NODE.JS</span>
+                </h1>
+
+                <p class="hero-mini">
+                    Pure Node.js · Zero Native Dependencies · Custom Codecs
+                </p>
+
+                <p class="hero-tagline">
+                    A dependency-free computer vision engine for Node.js. Built
+                    with TypedArrays, SharedArrayBuffer, custom JPEG/PNG codecs,
+                    optimized kernels, morphology, edge detection, resize,
+                    annotation, and pipeline execution.
+                </p>
+
+                <div class="hero-actions">
+                    <div class="install-box">
+                        <span class="prompt">$</span> npm i @cervid/vision
+                        <button class="copy-btn" onclick="copyInstall()">
+                            COPY
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">~1.6s</div>
+                        <div class="stat-label">30MP CV Pipeline</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Native Dependencies</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-value">MIT</div>
+                        <div class="stat-label">License</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="divider-line"></div>
+
+        <section id="benchmark" class="section-container">
+            <div class="section-label">Performance</div>
+
+            <h2 class="section-title">
+                BENCHMARK<br />
+                <span class="accent-gradient">6720×4480 JPEG</span>
+            </h2>
+
+            <div class="benchmark-grid-wrapper">
+                <div class="bench-header">
+                    <span>PIPELINE</span>
+                    <span>RELATIVE TIME</span>
+                    <span style="text-align: right">MEDIAN</span>
+                </div>
+
+                <div class="benchmark-rows">
+                    <div class="bench-row-item highlight">
+                        <div class="bench-name">
+                            @cervid/vision · CV Pipeline
+                        </div>
+
+                        <div class="bench-bar-wrap">
+                            <div class="bench-bar" style="width: 35%;"></div>
+                        </div>
+
+                        <div class="bench-time">~1.6s</div>
+                    </div>
+
+                    <div class="bench-row-item">
+                        <div class="bench-name">Sharp · JS Sobel Pipeline</div>
+
+                        <div class="bench-bar-wrap">
+                            <div class="bench-bar" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="bench-time">~4.8s</div>
+                    </div>
+
+                    <div class="bench-row-item">
+                        <div class="bench-name">Jimp · JS Sobel Pipeline</div>
+
+                        <div class="bench-bar-wrap">
+                            <div
+                                class="bench-bar"
+                                style="width: 100%; opacity: 0.35;"
+                            >
+                            </div>
+                        </div>
+
+                        <div class="bench-time">~33s</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="bench-note">
+                JPEG progressive · 6720×4480 · grayscale → blur(1) → Sobel edges
+                → PNG. Cervid Vision uses custom codecs, optimized TypedArray
+                kernels, grayscale PNG export, and pipeline execution.
+            </p>
+        </section>
+
+        <div class="divider-line"></div>
+
+        <section id="features" class="section-container">
+            <div class="section-label">Capabilities</div>
+
+            <h2 class="section-title">
+                IMAGE PROCESSING<br />
+                <span class="accent-gradient">WITHOUT NATIVE BINDINGS</span>
+            </h2>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <span class="feature-kicker">Codecs</span>
+                    <h3>Custom JPEG / PNG</h3>
+                    <p>
+                        Read and write images without depending on Sharp,
+                        OpenCV, libvips, or native addons. Supports JPEG,
+                        progressive JPEG, PNG, and PPM.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Kernels</span>
+                    <h3>Filters & Edges</h3>
+                    <p>
+                        Grayscale, blur, Sobel edges, threshold, invert,
+                        brightness, contrast, gamma, normalize, histogram, and
+                        custom convolution.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Geometry</span>
+                    <h3>Resize & Transform</h3>
+                    <p>
+                        Resize with nearest, bilinear, and area modes. Crop,
+                        scale, flip, rotate, and prepare images for computer
+                        vision pipelines.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Vision</span>
+                    <h3>Masks & Morphology</h3>
+                    <p>
+                        Thresholding, adaptive threshold, erode, dilate, open,
+                        close, color masks, connected components, and bounding
+                        boxes.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Annotation</span>
+                    <h3>Draw & Inspect</h3>
+                    <p>
+                        Draw points, lines, rectangles, circles, filled shapes,
+                        and detected boxes directly over images and masks.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">Pipeline</span>
+                    <h3>Optimizable Chains</h3>
+                    <p>
+                        Use normal chaining for clarity, or
+                        <code>pipeline().run()</code> for optimized execution paths
+                        on known computer vision workloads.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <div class="divider-line"></div>
+
+        <section class="section-container">
+            <div class="section-label">Positioning</div>
+
+            <h2 class="section-title">
+                NOT A WRAPPER<br />
+                <span class="accent-gradient">A REAL NODE.JS ENGINE</span>
+            </h2>
+
+            <div class="vision-position-grid">
+                <article class="feature-card">
+                    <span class="feature-kicker">No Sharp</span>
+                    <h3>No libvips dependency</h3>
+                    <p>
+                        Cervid Vision is not a wrapper around Sharp. It ships
+                        its own codecs and processing kernels.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">No OpenCV</span>
+                    <h3>No native computer vision binding</h3>
+                    <p>
+                        Built for developers who want computer vision workflows
+                        directly inside a pure Node.js environment.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-kicker">No Runtime Deps</span>
+                    <h3>TypedArray-first architecture</h3>
+                    <p>
+                        Uses flat memory, SharedArrayBuffer, and optimized loops
+                        instead of object-heavy pixel processing.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <div class="divider-line" id="packages"></div>
+
+        <Ecosystem disabled={["@cervid/vision"]} />
+
+        <Roadmap />
+
+        <Footer />
+
+        <script>
+            function copyInstall() {
+                navigator.clipboard?.writeText("npm i @cervid/vision");
+            }
+
+            const openBtn = document.getElementById("openMenu");
+            const closeBtn = document.getElementById("closeMenu");
+            const navMenu = document.getElementById("navMenu");
+
+            openBtn?.addEventListener("click", () => {
+                navMenu?.classList.add("active");
+                document.body.style.overflow = "hidden";
+            });
+
+            closeBtn?.addEventListener("click", () => {
+                navMenu?.classList.remove("active");
+                document.body.style.overflow = "auto";
+            });
+        </script>
+    </body>
+</html>

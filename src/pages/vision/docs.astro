@@ -1,0 +1,509 @@
+---
+import Logo from "../../components/logo.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>@Cervid/vision &mdash; Documentation</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Syne:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles/docs.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+
+    <nav class="topnav">
+      <Logo ext=" - Docs" />
+      <div class="topnav-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          ☰
+        </button>
+        <div class="nav-sep"></div>
+      </div>
+      <div class="topnav-right">
+        <a href="https://github.com/cervidlabs/vision" target="_blank">GitHub</a>
+        <a href="https://npmjs.com/package/@cervid/vision" target="_blank">npm</a>
+        <span class="version-tag">v0.1.0</span>
+      </div>
+    </nav>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Getting Started</span>
+          <div class="sidebar-link active" data-page="intro">Introduction</div>
+          <div class="sidebar-link" data-page="install">Installation</div>
+          <div class="sidebar-link" data-page="quickstart">Quickstart</div>
+        </div>
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Core APIs</span>
+          <div class="sidebar-link" data-page="visionimage">
+            VisionImage <span class="stag stag-io">I/O</span>
+          </div>
+          <div class="sidebar-link" data-page="pipeline">
+            VisionPipeline <span class="stag stag-tf">fuse</span>
+          </div>
+          <div class="sidebar-link" data-page="visionframe">
+            VisionFrame
+          </div>
+        </div>
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Kernels</span>
+          <div class="sidebar-link" data-page="adjustments">Adjustments</div>
+          <div class="sidebar-link" data-page="filters">Filters & Edges</div>
+          <div class="sidebar-link" data-page="geometry">Geometry</div>
+          <div class="sidebar-link" data-page="morphology">Morphology & Masks</div>
+          <div class="sidebar-link" data-page="analysis">
+            Analysis <span class="stag stag-agg">O(n)</span>
+          </div>
+        </div>
+        <div class="sidebar-group">
+          <span class="sidebar-group-label">Annotation</span>
+          <div class="sidebar-link" data-page="drawing">Drawing</div>
+        </div>
+      </aside>
+
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <main class="main" is:raw>
+        <!-- PAGE: INTRO -->
+        <div class="page active" id="page-intro">
+          <div class="page-header">
+            <div class="page-eyebrow">Cervid/vision</div>
+            <h1 class="page-title">INTRODUCTION</h1>
+            <p class="page-desc">
+              A pure Node.js computer vision engine. Zero native dependencies. Custom codecs, 
+              SharedArrayBuffer architecture, and dynamic kernel fusion.
+            </p>
+          </div>
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-card-val">0</div>
+              <div class="stat-card-lbl">Dependencies</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">~1.6s</div>
+              <div class="stat-card-lbl">30MP CV Pipeline</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">SAB</div>
+              <div class="stat-card-lbl">Zero-Copy Memory</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-val">MIT</div>
+              <div class="stat-card-lbl">License</div>
+            </div>
+          </div>
+          <div class="section-title">How it works</div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                Traditional Node.js image libraries like Sharp rely on <code>libvips</code> 
+                compiled as native C++ addons. Cervid Vision breaks from this by implementing 
+                custom decoders (JPEG, PNG, PPM) natively in JavaScript, placing the raw pixel data 
+                directly into contiguous <code>SharedArrayBuffer</code> memory.
+              </p>
+              <p class="method-desc">
+                Image operations (Kernels) are written in optimized JS using TypedArray views. 
+                Instead of executing eager copies, the <code>VisionPipeline</code> can detect 
+                common workflows (like Grayscale → Blur → Sobel edges) and <strong>fuse</strong> 
+                them into a single multi-threaded pass across your CPU cores.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: INSTALL -->
+        <div class="page" id="page-install">
+          <div class="page-header">
+            <div class="page-eyebrow">Getting Started</div>
+            <h1 class="page-title">INSTALLATION</h1>
+            <p class="page-desc">
+              Cervid Vision requires Node.js 18+ for SharedArrayBuffer and Worker Threads support.
+            </p>
+          </div>
+          <div class="section-title">npm</div>
+          <span class="code-label">install</span>
+          <pre><span class="cn">npm</span> i @cervid/vision</pre>
+          <div class="section-title">Import</div>
+          <span class="code-label">ESM (recommended)</span>
+          <pre><span class="kw">import</span> { Vision, VisionImage, VisionPipeline } <span class="kw">from</span> <span class="st">'@cervid/vision'</span></pre>
+        </div>
+
+        <!-- PAGE: QUICKSTART -->
+        <div class="page" id="page-quickstart">
+          <div class="page-header">
+            <div class="page-eyebrow">Getting Started</div>
+            <h1 class="page-title">QUICKSTART</h1>
+            <p class="page-desc">
+              A complete example showing how to read an image, detect edges, draw a bounding box, and save it back to disk.
+            </p>
+          </div>
+          <span class="code-label">complete example</span>
+          <pre><span class="kw">import</span> { Vision } <span class="kw">from</span> <span class="st">'@cervid/vision'</span>
+
+// 1. Read a JPEG or PNG
+<span class="kw">const</span> img = <span class="kw">await</span> Vision.read(<span class="st">'input.jpg'</span>)
+
+// 2. Optimized Pipeline: Grayscale -> Blur -> Sobel Edges
+<span class="kw">await</span> img.pipeline()
+    .grayscale()
+    .blur(1)
+    .edges()
+    .runAsync() // Fuses these 3 ops and runs in parallel
+
+// 3. Find Connected Components
+<span class="kw">const</span> components = img.connectedComponents({ minArea: 50 })
+
+// 4. Draw bounding boxes on the result
+img.drawBoxes(components, { r: 255, g: 0, b: 0 }, 2)
+
+// 5. Save back to disk
+<span class="kw">await</span> img.save(<span class="st">'output_edges.png'</span>)</pre>
+        </div>
+
+        <!-- PAGE: VISION IMAGE -->
+        <div class="page" id="page-visionimage">
+          <div class="page-header">
+            <div class="page-eyebrow">Core APIs</div>
+            <h1 class="page-title">VISION<span class="accent">IMAGE</span></h1>
+            <p class="page-desc">
+              The primary wrapper class for image manipulation. Kernels attach themselves to this class dynamically.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="kw">static async</span> <span class="fn">Vision.read</span>(<span class="prm">path</span><span class="typ">: string</span>) → <span class="ret">Promise&lt;VisionImage&gt;</span>
+              </div>
+              <span class="method-kind static">static</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">Reads an image from disk into memory. Supported formats: <code>.jpg</code>, <code>.png</code>, <code>.ppm</code>.</p>
+            </div>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="fn">save</span>(<span class="prm">path</span><span class="typ">: string</span>, <span class="prm">opts?</span>) → <span class="ret">Promise&lt;void&gt;</span>
+              </div>
+              <span class="method-kind instance">instance</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">
+                Saves the image to disk. The format is inferred from the file extension (e.g. <code>.jpg</code>, <code>.png</code>).
+                Automatically converts 1-channel grayscale to 3-channel RGB if saving as JPEG.
+              </p>
+            </div>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="fn">pipeline</span>() → <span class="ret">VisionPipeline</span>
+              </div>
+              <span class="method-kind instance">instance</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">
+                Creates an optimizable <code>VisionPipeline</code> for this image. Useful for fusing multiple operations together.
+              </p>
+            </div>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="fn">toRGB</span>() → <span class="ret">VisionImage</span>
+              </div>
+              <span class="method-kind instance">instance</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">Converts a 1-channel grayscale image back to 3-channel RGB.</p>
+            </div>
+          </div>
+          <div class="note note-tip">
+            <strong>Dynamic Kernels:</strong> All kernels (like <code>.blur()</code>, <code>.resize()</code>, <code>.invert()</code>) are automatically attached as methods to <code>VisionImage</code>. You can chain them directly!
+          </div>
+        </div>
+
+        <!-- PAGE: PIPELINE -->
+        <div class="page" id="page-pipeline">
+          <div class="page-header">
+            <div class="page-eyebrow">Core APIs</div>
+            <h1 class="page-title">VISION<span class="accent">PIPELINE</span></h1>
+            <p class="page-desc">
+              Lazy execution, kernel fusion, and parallel worker pools for complex workloads.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                While you can execute methods eagerly (<code>img.grayscale().blur().edges()</code>), this creates intermediate buffer copies in RAM for every step. The <code>VisionPipeline</code> records operations and executes them smartly.
+              </p>
+              <p class="method-desc">
+                <strong>Known Fusions:</strong>
+                <br/>- <code>gbe</code>: Grayscale + Blur(1) + Edges (Sobel)
+                <br/>- <code>be</code>: Blur(1) + Edges (Sobel)
+                <br/>- <code>gt</code>: Grayscale + Threshold
+              </p>
+            </div>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="fn">run</span>() → <span class="ret">VisionImage</span>
+              </div>
+              <span class="method-kind instance">instance</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">Executes the recorded operations sequentially on the main thread, fusing compatible ops to skip intermediate arrays.</p>
+            </div>
+          </div>
+          <div class="method">
+            <div class="method-header">
+              <div class="method-sig">
+                <span class="fn">runAsync</span>() → <span class="ret">Promise&lt;VisionImage&gt;</span>
+              </div>
+              <span class="method-kind instance">instance</span>
+            </div>
+            <div class="method-body">
+              <p class="method-desc">
+                The ultimate performance path. If a fusion is detected and the image is large enough (>= 2 Megapixels), the workload is distributed across the <code>PipelineWorkerPool</code>. 
+                Using <code>SharedArrayBuffer</code>, workers compute horizontal slices of the image in parallel with zero memory copying.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: VISION FRAME -->
+        <div class="page" id="page-visionframe">
+          <div class="page-header">
+            <div class="page-eyebrow">Core APIs</div>
+            <h1 class="page-title">VISION<span class="accent">FRAME</span></h1>
+            <p class="page-desc">
+              The internal memory primitive backed by a SharedArrayBuffer and a Uint8Array view.
+            </p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+                <tr><td class="pn">width</td><td class="pt">number</td><td class="pd">Image width in pixels</td></tr>
+                <tr><td class="pn">height</td><td class="pt">number</td><td class="pd">Image height in pixels</td></tr>
+                <tr><td class="pn">channels</td><td class="pt">number</td><td class="pd">1 (Grayscale), 3 (RGB), or 4 (RGBA)</td></tr>
+                <tr><td class="pn">buffer</td><td class="pt">SharedArrayBuffer</td><td class="pd">The underlying raw memory block</td></tr>
+                <tr><td class="pn">data</td><td class="pt">Uint8Array</td><td class="pd">Flat view over the buffer, length = w*h*c</td></tr>
+              </table>
+              <br/>
+              <p class="method-desc">
+                Use <code>frame.get(x, y, c)</code> and <code>frame.set(x, y, c, value)</code> to safely access pixels directly.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: ADJUSTMENTS -->
+        <div class="page" id="page-adjustments">
+          <div class="page-header">
+            <div class="page-eyebrow">Kernels</div>
+            <h1 class="page-title">ADJUST<span class="accent">MENTS</span></h1>
+            <p class="page-desc">Color and value adjustments. These methods can be called directly on a <code>VisionImage</code>.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Method</th><th>Description</th></tr>
+                <tr><td class="pn">grayscale()</td><td class="pd">Converts RGB/RGBA to a 1-channel grayscale image (BT.601 integer approx).</td></tr>
+                <tr><td class="pn">invert()</td><td class="pd">Inverts pixel values (255 - x).</td></tr>
+                <tr><td class="pn">threshold(value = 128)</td><td class="pd">Binarizes a grayscale image to 0 or 255 based on the threshold.</td></tr>
+                <tr><td class="pn">adaptiveThreshold({ blockSize, c, invert })</td><td class="pd">Local adaptive thresholding using an Integral Image O(1) box sum approach.</td></tr>
+                <tr><td class="pn">brightnessContrast(b, c)</td><td class="pd">Fast LUT-based adjustment. Brightness (-255 to 255), Contrast (0.0 flat to >1 high).</td></tr>
+                <tr><td class="pn">gamma(g)</td><td class="pd">Gamma correction via LUT. g < 1 brightens, g > 1 darkens.</td></tr>
+                <tr><td class="pn">normalize()</td><td class="pd">Stretches values to use the full 0–255 range per-channel.</td></tr>
+                <tr><td class="pn">equalizeHistogram()</td><td class="pd">Flattens the contrast distribution globally (Grayscale only).</td></tr>
+                <tr><td class="pn">extractChannel(c)</td><td class="pd">Extracts a single channel as a grayscale image (0=R, 1=G, 2=B).</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: FILTERS -->
+        <div class="page" id="page-filters">
+          <div class="page-header">
+            <div class="page-eyebrow">Kernels</div>
+            <h1 class="page-title">FILTERS &amp; <span class="accent">EDGES</span></h1>
+            <p class="page-desc">Spatial domain convolution filters.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Method</th><th>Description</th></tr>
+                <tr><td class="pn">gaussianBlur(radius = 1, sigma?)</td><td class="pd">Separable Gaussian Blur. If radius=1, uses an ultra-fast hardcoded 3x3 pass.</td></tr>
+                <tr><td class="pn">boxBlur(radius = 1)</td><td class="pd">Mean filter convolution.</td></tr>
+                <tr><td class="pn">sobel()</td><td class="pd">Detects edges via X and Y gradients. Requires grayscale input.</td></tr>
+                <tr><td class="pn">sharpen(strength = 1)</td><td class="pd">Unsharp mask using a 3x3 convolution kernel.</td></tr>
+                <tr><td class="pn">convolve(kernel, kw, kh)</td><td class="pd">Apply any custom flat array kernel. Must provide odd dimensions (e.g. 3, 3).</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: GEOMETRY -->
+        <div class="page" id="page-geometry">
+          <div class="page-header">
+            <div class="page-eyebrow">Kernels</div>
+            <h1 class="page-title">GEOMETRY</h1>
+            <p class="page-desc">Structural transformations.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Method</th><th>Description</th></tr>
+                <tr><td class="pn">crop(x, y, w, h)</td><td class="pd">Extracts a sub-region into a new frame.</td></tr>
+                <tr><td class="pn">resize(w, h, method?)</td><td class="pd">Resizes using <code>'nearest'</code>, <code>'bilinear'</code>, or <code>'area'</code> (for downsizing).</td></tr>
+                <tr><td class="pn">scale(factor, method?)</td><td class="pd">Scales by a multiplier (e.g. 0.5 for half size).</td></tr>
+                <tr><td class="pn">flipH() / flipV()</td><td class="pd">Flips the image horizontally or vertically.</td></tr>
+                <tr><td class="pn">rotate90()</td><td class="pd">Rotates the image 90 degrees clockwise.</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: MORPHOLOGY -->
+        <div class="page" id="page-morphology">
+          <div class="page-header">
+            <div class="page-eyebrow">Kernels</div>
+            <h1 class="page-title">MORPHO<span class="accent">LOGY</span></h1>
+            <p class="page-desc">Operations for binary masks and shapes. Require 1-channel input.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Method</th><th>Description</th></tr>
+                <tr><td class="pn">erode(radius = 1)</td><td class="pd">Shrinks bright regions. Requires all pixels in neighborhood to be >0.</td></tr>
+                <tr><td class="pn">dilate(radius = 1)</td><td class="pd">Expands bright regions. Requires any pixel in neighborhood to be >0.</td></tr>
+                <tr><td class="pn">open(radius = 1)</td><td class="pd">Erode followed by Dilate. Removes small noise.</td></tr>
+                <tr><td class="pn">close(radius = 1)</td><td class="pd">Dilate followed by Erode. Closes small holes.</td></tr>
+                <tr><td class="pn">inRangeGray(min, max)</td><td class="pd">Creates a binary mask where pixels within range are 255, else 0.</td></tr>
+                <tr><td class="pn">inRangeRGB({r, g, b})</td><td class="pd">Creates a mask based on RGB boundary arrays (e.g. <code>{ r: [100, 255] }</code>).</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: ANALYSIS -->
+        <div class="page" id="page-analysis">
+          <div class="page-header">
+            <div class="page-eyebrow">Kernels</div>
+            <h1 class="page-title">ANALYSIS</h1>
+            <p class="page-desc">Functions that extract data or structural information from the image.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <table class="ptable">
+                <tr><th>Method</th><th>Description</th></tr>
+                <tr><td class="pn">histogram()</td><td class="pd">Returns an array of <code>Uint32Array(256)</code> representing pixel frequency per channel.</td></tr>
+                <tr><td class="pn">integral()</td><td class="pd">Returns an Integral Image representation for O(1) area sums.</td></tr>
+                <tr><td class="pn">connectedComponents(opts?)</td><td class="pd">Finds disjoint shapes in a binary image. Returns an array of objects containing bounding boxes, centroids, and area. Allows filtering by <code>minArea</code>, <code>maxArea</code>, and <code>connectivity</code> (4 or 8).</td></tr>
+                <tr><td class="pn">filterComponents(comps, opts)</td><td class="pd">Utility to filter a components array by area.</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: DRAWING -->
+        <div class="page" id="page-drawing">
+          <div class="page-header">
+            <div class="page-eyebrow">Annotation</div>
+            <h1 class="page-title">DRAW<span class="accent">ING</span></h1>
+            <p class="page-desc">Rasterizing shapes directly onto the image buffer.</p>
+          </div>
+          <div class="method">
+            <div class="method-body">
+              <p class="method-desc">
+                Colors are provided as objects: <code>{ r: 255, g: 0, b: 0 }</code>. If drawing on grayscale, you can provide <code>{ gray: 255 }</code>. All methods accept a <code>thickness</code> parameter.
+              </p>
+              <table class="ptable">
+                <tr><th>Method</th><th>Signature</th></tr>
+                <tr><td class="pn">drawPoint</td><td class="pd">(x, y, color, thickness)</td></tr>
+                <tr><td class="pn">drawLine</td><td class="pd">(x0, y0, x1, y1, color, thickness) — Bresenham's algorithm</td></tr>
+                <tr><td class="pn">drawRect</td><td class="pd">(x, y, w, h, color, thickness)</td></tr>
+                <tr><td class="pn">drawFilledRect</td><td class="pd">(x, y, w, h, color)</td></tr>
+                <tr><td class="pn">drawCircle</td><td class="pd">(cx, cy, r, color, thickness)</td></tr>
+                <tr><td class="pn">drawFilledCircle</td><td class="pd">(cx, cy, r, color)</td></tr>
+                <tr><td class="pn">drawBoxes</td><td class="pd">(boxes[], color, thickness) — Accepts components array directly</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <script>
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("sidebarOverlay");
+
+      function openSidebar() {
+        sidebar?.classList.add("open");
+        overlay?.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.remove("open");
+        overlay?.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      if (menuToggle) menuToggle.addEventListener("click", openSidebar);
+      if (overlay) overlay.addEventListener("click", closeSidebar);
+
+      const links = document.querySelectorAll<HTMLElement>(".sidebar-link");
+      const pages = document.querySelectorAll<HTMLElement>(".page");
+
+      function showPage(pageId: string) {
+        pages.forEach((p) => p.classList.remove("active"));
+        links.forEach((l) => l.classList.remove("active"));
+        const page = document.getElementById("page-" + pageId);
+        if (page) page.classList.add("active");
+        const link = document.querySelector(`[data-page="${pageId}"]`);
+        if (link) link.classList.add("active");
+        history.replaceState(null, "", "#" + pageId);
+        window.scrollTo(0, 0);
+        if (window.innerWidth <= 860) closeSidebar();
+      }
+
+      links.forEach((link) => {
+        link.addEventListener("click", (e: Event) => {
+          e.preventDefault();
+          showPage(link.dataset.page || "");
+        });
+      });
+
+      const hash = window.location.hash.replace("#", "");
+      if (hash && document.getElementById("page-" + hash)) {
+        showPage(hash);
+      } else {
+        showPage("intro");
+      }
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 860) closeSidebar();
+      });
+    </script>
+  </body>
+</html>
